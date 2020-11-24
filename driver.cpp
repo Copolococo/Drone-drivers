@@ -57,6 +57,8 @@ Drone::Drone(void)
     
     buffer[0] = START_BYTE;
     buffer[7] = END_BYTE;
+    
+    droneState = Landed;
 
     on();
     commThread = std::thread(&Drone::commLoop, this);
@@ -101,6 +103,7 @@ void Drone::stop(void)
 
 void Drone::launch(void)
 {
+    droneState = Launching;
     bufferMutex.lock();
     buffer[1] = 0x81;
     buffer[2] = 0x84;
@@ -116,6 +119,7 @@ void Drone::launch(void)
     buffer[5] = CTRL_LAND;
     buffer[6] = 0x01;
     bufferMutex.unlock();
+    droneState = Flying;
 }
 
 /**

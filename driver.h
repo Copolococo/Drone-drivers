@@ -25,6 +25,7 @@
 #define CTRL_RSTGYRO    0x80
 
 enum _byteName{Start, Yaw, Surge, Heave, Sway, Cmd, Checksum, Stop};
+enum state{Landed, Launching, Flying, Flip};
 
 class Drone
 {
@@ -38,6 +39,7 @@ class Drone
         std::mutex bufferMutex;
         char _getByte(enum _byteName byteName);
         void _setByte(enum _byteName byteName, char value);
+        char droneState;
 
     public:
         Drone(void);
